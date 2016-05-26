@@ -1,0 +1,132 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:gesture-image="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true"
+    android:background="#FFFFFF"
+    android:id="@+id/girls_info_fragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="4"
+            android:rowCount="5">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="117dp"
+                    android:text="名称"
+                    android:layout_rowWeight="1"
+                    android:gravity="center"
+                    android:layout_columnWeight="1" />
+                <TextView
+                    android:id="@+id/girls_name"
+                    android:layout_width="0dp"
+                    android:layout_height="117dp"
+                    android:text="列克星敦"
+                    android:layout_rowWeight="1"
+                    android:gravity="center"
+                    android:layout_columnWeight="1" />
+                <ImageView
+                    android:id="@+id/girls_pic"
+                    android:layout_width="0dp"
+                    android:src="@drawable/girl_29"
+                    android:layout_height="351dp"
+                    android:layout_gravity="fill"
+                    android:layout_rowSpan="3"
+                    android:layout_columnSpan="2" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="117dp"
+                    android:text="种类"
+                    android:layout_rowWeight="1"
+                    android:gravity="center"
+                    android:layout_columnWeight="1" />
+                <TextView
+                    android:id="@+id/girls_type"
+                    android:layout_width="0dp"
+                    android:layout_height="117dp"
+                    android:text="航空母舰"
+                    android:layout_rowWeight="1"
+                    android:gravity="center"
+                    android:layout_columnWeight="1" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="117dp"
+                    android:text="编号"
+                    android:layout_rowWeight="1"
+                    android:gravity="center"
+                    android:layout_columnWeight="1" />
+                <TextView
+                    android:id="@+id/girls_no"
+                    android:layout_width="0dp"
+                    android:layout_height="117dp"
+                    android:text="29"
+                    android:layout_rowWeight="1"
+                    android:gravity="center"
+                    android:layout_columnWeight="1" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="117dp"
+                    android:text="火力"
+                    android:layout_rowWeight="1"
+                    android:gravity="center"
+                    android:layout_columnWeight="1" />
+                <TextView
+                    android:id="@+id/girls_firepower"
+                    android:layout_width="wrap_content"
+                    android:layout_height="117dp"
+                    android:text="99"
+                    android:layout_rowWeight="1"
+                    android:gravity="center"
+                    android:layout_columnWeight="1" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="117dp"
+                    android:text="鱼雷"
+                    android:layout_rowWeight="1"
+                    android:gravity="center"
+                    android:layout_columnWeight="1" />
+                <TextView
+                    android:id="@+id/girls_torpedo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="117dp"
+                    android:text="99"
+                    android:layout_rowWeight="1"
+                    android:gravity="center"
+                    android:layout_columnWeight="1" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="117dp"
+                    android:text="装甲"
+                    android:layout_rowWeight="1"
+                    android:gravity="center"
+                    android:layout_columnWeight="1" />
+                <TextView
+                    android:id="@+id/girls_armor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="117dp"
+                    android:text="99"
+                    android:layout_rowWeight="1"
+                    android:gravity="center"
+                    android:layout_columnWeight="1" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="117dp"
+                    android:text="对空"
+                    android:layout_rowWeight="1"
+                    android:gravity="center"
+                    android:layout_columnWeight="1" />
+                <TextView
+                    android:id="@+id/girls_aa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="117dp"
+                    android:text="99"
+                    android:layout_rowWeight="1"
+                    android:gravity="center"
+                    android:layout_columnWeight="1" />
+        </GridLayout>
+    </LinearLayout>
+</ScrollView>
