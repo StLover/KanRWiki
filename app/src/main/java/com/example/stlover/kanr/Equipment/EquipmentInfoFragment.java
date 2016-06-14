@@ -27,10 +27,15 @@ public class EquipmentInfoFragment extends Fragment {
     @Override
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        Cursor list;
+
         View view = inflater.inflate(R.layout.view_equipment, null, false);
-        String rowid = String.valueOf(getArguments().getInt("rowid"));
-        String[] args = {rowid};
-        Cursor list = Kanr_activity.db.rawQuery("SELECT * FROM equipment ORDER BY no LIMIT 1 OFFSET ? ",args);
+        if(getArguments().getBoolean("type")) {
+            list = findById();
+        } else {
+            list = findByRowid();
+        }
         list.moveToNext();
         ScrollView scrollView = (ScrollView) view.findViewById(R.id.equipment_info_fragment);
         ScrollView.LayoutParams lp = new ScrollView.LayoutParams(ScrollView.LayoutParams.MATCH_PARENT, ScrollView.LayoutParams.MATCH_PARENT);
@@ -64,5 +69,20 @@ public class EquipmentInfoFragment extends Fragment {
         Bitmap resizeBitmap = Bitmap.createBitmap(bitmap,0,0,bitmap.getWidth(),bitmap.getHeight(),matrix,true);
         pic.setImageBitmap(resizeBitmap);
         return view;
+    }
+
+
+    private Cursor findByRowid() {
+        String rowid = String.valueOf(getArguments().getInt("rowid"));
+        String[] args = {rowid};
+        Cursor list = Kanr_activity.db.rawQuery("SELECT * FROM equipment ORDER BY no LIMIT 1 OFFSET ? ",args);
+        return list;
+    }
+
+    private Cursor findById() {
+        String rowid = String.valueOf(getArguments().getInt("rowid"));
+        String[] args = {rowid};
+        Cursor list = Kanr_activity.db.rawQuery("SELECT * FROM equipment WHERE no=? ",args);
+        return list;
     }
 }

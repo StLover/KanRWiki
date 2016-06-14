@@ -9,7 +9,7 @@ import android.os.Environment;
  */
 public class DBManager {
     private final int BUFFER_SIZE = 400000;
-    public static final String DB_NAME = "KanR.db"; //保存的数据库文件名
+    public static final String DB_NAME = "database/KanR.db"; //保存的数据库文件名
     public static final String PACKAGE_NAME = "com.example.stlover.kanr";
     public static final String DB_PATH = "/data"
             + Environment.getDataDirectory().getAbsolutePath() + "/"

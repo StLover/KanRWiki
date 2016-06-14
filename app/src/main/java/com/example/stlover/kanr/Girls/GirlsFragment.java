@@ -109,6 +109,7 @@ public class GirlsFragment extends Fragment {
                         GirlsInfoFragment fragment = new GirlsInfoFragment();
                         Bundle bundle = new Bundle();
                         bundle.putInt("rowid",position);
+                        bundle.putBoolean("type",false);
                         fragment.setArguments(bundle);
                         FragmentTransaction ft = getFragmentManager().beginTransaction();
                         ft.replace(R.id.main_activity, fragment);

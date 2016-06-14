@@ -24,12 +24,18 @@ import java.io.FileNotFoundException;
  * Created by StLover on 2016/4/21.
  */
 public class GirlsInfoFragment extends Fragment {
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        Cursor list;
+
         View view = inflater.inflate(R.layout.view_girls, null, false);
-        String rowid = String.valueOf(getArguments().getInt("rowid"));
-        String[] args = {rowid};
-        Cursor list = Kanr_activity.db.rawQuery("SELECT * FROM girls ORDER BY no LIMIT 1 OFFSET ? ",args);
+        if(getArguments().getBoolean("type")) {
+            list = findById();
+        } else {
+            list = findByRowid();
+        }
         list.moveToNext();
         ScrollView scrollView = (ScrollView) view.findViewById(R.id.girls_info_fragment);
         ScrollView.LayoutParams lp = new ScrollView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -63,5 +69,19 @@ public class GirlsInfoFragment extends Fragment {
         Bitmap resizeBitmap = Bitmap.createBitmap(bitmap,0,0,bitmap.getWidth(),bitmap.getHeight(),matrix,true);
         pic.setImageBitmap(resizeBitmap);
         return view;
+    }
+
+    private Cursor findByRowid() {
+        String rowid = String.valueOf(getArguments().getInt("rowid"));
+        String[] args = {rowid};
+        Cursor list = Kanr_activity.db.rawQuery("SELECT * FROM girls ORDER BY no LIMIT 1 OFFSET ? ",args);
+        return list;
+    }
+
+    private Cursor findById() {
+        String rowid = String.valueOf(getArguments().getInt("rowid"));
+        String[] args = {rowid};
+        Cursor list = Kanr_activity.db.rawQuery("SELECT * FROM girls WHERE no=? ",args);
+        return list;
     }
 }

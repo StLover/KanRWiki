@@ -1,20 +1,20 @@
 package com.example.stlover.kanr;
 
-import android.content.res.AssetManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.util.Log;
 
 import com.example.stlover.kanr.Equipment.EquipmentFragment;
 import com.example.stlover.kanr.Girls.GirlsFragment;
+import com.example.stlover.kanr.Search.SearchFragment;
 import com.example.stlover.kanr.Waters.WatersFragment;
 import com.viewpagerindicator.IconPagerAdapter;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,9 +33,9 @@ public class Kanr_activity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kanr_activity);
         initViews();
-        copyFilesToSdCard();
-        db = SQLiteDatabase.openDatabase("/storage/emulated/0/Android/data/com.example.stlover.kanr/files/KanR.db",null,SQLiteDatabase.OPEN_READONLY);
-        //deleteAllFiles(new File("/storage/emulated/0/Android/data/com.example.stlover.kanr/"));
+        copyAssets("", getExternalFilesDir("").getAbsolutePath()+"/");
+        //deleteAllFiles(new File("/storage/emulated/0/Android/data/com.example.stlover.kanr/"));db = SQLiteDatabase.openDatabase("/storage/emulated/0/Android/data/com.example.stlover.kanr/files/database/KanR.db",null,SQLiteDatabase.OPEN_READONLY);
+        db = SQLiteDatabase.openDatabase("/storage/emulated/0/Android/data/com.example.stlover.kanr/files/database/KanR.db",null,SQLiteDatabase.OPEN_READONLY);
     }
 
     private void initViews() {
@@ -66,65 +66,60 @@ public class Kanr_activity extends FragmentActivity {
         return fragments;
     }
 
-    private void copyFilesToSdCard() {
-        copyFileOrDir(""); // copy all files in assets folder in my project
-    }
-
-    private void copyFileOrDir(String path) {
-        AssetManager assetManager = this.getAssets();
-        String assets[] = null;
+    private void copyAssets(String assetDir, String dir) {
+        String[] files;
         try {
-            assets = assetManager.list(path);
-            if (assets.length == 0) {
-                copyFile(path);
-            } else {
-                String fullPath =  getExternalFilesDir(null) + "/" + path;
-                File dir = new File(fullPath);
-                if (!dir.exists() && !path.startsWith("images") && !path.startsWith("sounds") && !path.startsWith("webkit"))
-                    if (!dir.mkdirs())
-                for (int i = 0; i < assets.length; ++i) {
-                    String p;
-                    if (path.equals(""))
-                        p = "";
-                    else
-                        p = path + "/";
-
-                    if (!path.startsWith("images") && !path.startsWith("sounds") && !path.startsWith("webkit"))
-                        copyFileOrDir( p + assets[i]);
-                }
-            }
-        } catch (IOException ex) {
+            // 获得Assets一共有几多文件
+            files = this.getResources().getAssets().list(assetDir);
+        } catch (IOException e1) {
+            return;
         }
-    }
-
-    private void copyFile(String filename) {
-        AssetManager assetManager = this.getAssets();
-
-        InputStream in = null;
-        OutputStream out = null;
-        String newFileName = null;
-        try {
-            Log.i("tag", "copyFile() "+filename);
-            in = assetManager.open(filename);
-            if (filename.endsWith(".jpg")) // extension was added to avoid compression on APK file
-                newFileName = getExternalFilesDir(null) + "/"+ filename.substring(0, filename.length()-4);
-            else
-                newFileName = getExternalFilesDir(null) + "/"+ filename;
-            out = new FileOutputStream(newFileName);
-
-            byte[] buffer = new byte[1024];
-            int read;
-            while ((read = in.read(buffer)) != -1) {
-                out.write(buffer, 0, read);
+        File mWorkingPath = new File(dir);
+        // 如果文件路径不存在
+        if (!mWorkingPath.exists()) {
+            // 创建文件夹
+            if (!mWorkingPath.mkdirs()) {
+                // 文件夹创建不成功时调用
             }
-            in.close();
-            in = null;
-            out.flush();
-            out.close();
-            out = null;
-        } catch (Exception e) {
-            Log.e("tag", "Exception in copyFile() of "+newFileName);
-            Log.e("tag", "Exception in copyFile() "+e.toString());
+        }
+        for (int i = 0; i < files.length; i++) {
+            try {
+                // 获得每个文件的名字
+                String fileName = files[i];
+
+                // 根据路径判断是文件夹还是文件
+                if (!fileName.contains(".")) {
+                    if (0 == assetDir.length()) {
+                        copyAssets(fileName, dir + fileName + "/");
+                    } else {
+                        copyAssets(assetDir + "/" + fileName, dir + "/"
+                                + fileName + "/");
+                    }
+                    continue;
+                }
+                File outFile = new File(mWorkingPath, fileName);
+                if (outFile.exists())
+                    outFile.delete();
+                InputStream in = null;
+                if (0 != assetDir.length())
+                    in = getAssets().open(assetDir + "/" + fileName);
+                else
+                    in = getAssets().open(fileName);
+                OutputStream out = new FileOutputStream(outFile);
+                // Transfer bytes from in to out
+                byte[] buf = new byte[1024];
+                int len;
+                while ((len = in.read(buf)) > 0) {
+                    out.write(buf, 0, len);
+                }
+                in.close();
+                out.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
     private void deleteAllFiles(File root) {

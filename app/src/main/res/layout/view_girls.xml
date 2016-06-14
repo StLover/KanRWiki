@@ -32,7 +32,6 @@
                 <ImageView
                     android:id="@+id/girls_pic"
                     android:layout_width="0dp"
-                    android:src="@drawable/girl_29"
                     android:layout_height="351dp"
                     android:layout_gravity="fill"
                     android:layout_rowSpan="3"

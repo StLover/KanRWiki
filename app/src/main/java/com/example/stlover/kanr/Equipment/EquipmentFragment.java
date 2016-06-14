@@ -63,6 +63,7 @@ public class EquipmentFragment extends Fragment {
                 EquipmentInfoFragment fragment = new EquipmentInfoFragment();
                 Bundle bundle = new Bundle();
                 bundle.putInt("rowid", position);
+                bundle.putBoolean("type",false);
                 fragment.setArguments(bundle);
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.main_activity, fragment);
